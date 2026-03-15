@@ -41,7 +41,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .tag-dot{width:6px;height:6px;border-radius:50%;background:#a78bfa;animation:dotpulse 1.5s infinite;}
 h1{font-family:'Manrope',sans-serif;font-size:clamp(2.2rem,5.2vw,3.8rem);font-weight:800;line-height:1.12;letter-spacing:-0.025em;margin-bottom:1.2rem;}
 h1 .outline{color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,0.22);}
-h1 .grad{background:linear-gradient(90deg,#7c6fff 0%,#a78bfa 50%,#06b6d4 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+h1 .grad{background:linear-gradient(270deg,#7c6fff,#a78bfa,#06b6d4,#5b4ef8,#67e8f9,#a78bfa,#7c6fff);background-size:400% 400%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gradMove 4s ease infinite;}
+@keyframes gradMove{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
 .desc{font-size:0.96rem;color:var(--muted);line-height:1.85;max-width:420px;margin-bottom:2.2rem;}
 .desc strong{color:#fff;}
 .actions{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;margin-bottom:2.5rem;}
@@ -202,7 +203,156 @@ h1 .grad{background:linear-gradient(90deg,#7c6fff 0%,#a78bfa 50%,#06b6d4 100%);-
   </div>
 </section>
 
-<div class="ph" id="about"><p>About — Coming Soon</p></div>
+<!-- ABOUT SECTION -->
+<section id="about" style="position:relative;z-index:1;padding:6rem 6%;border-top:1px solid rgba(255,255,255,0.08);">
+<style>
+.about-inner{max-width:1180px;margin:0 auto;}
+.sec-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(91,78,248,0.13);border:1px solid rgba(91,78,248,0.3);color:#a78bfa;font-size:0.76rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:0.38rem 1rem;border-radius:999px;margin-bottom:1rem;}
+.sec-tag-dot{width:6px;height:6px;border-radius:50%;background:#a78bfa;animation:dotpulse 1.5s infinite;}
+.sec-title{font-family:'Manrope',sans-serif;font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-0.02em;margin-bottom:0.5rem;line-height:1.15;}
+.sec-title .grad2{background:linear-gradient(270deg,#7c6fff,#a78bfa,#06b6d4,#5b4ef8,#67e8f9,#a78bfa,#7c6fff);background-size:400% 400%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gradMove 4s ease infinite;}
+.sec-sub{color:#9896ab;font-size:0.95rem;margin-bottom:3rem;max-width:500px;line-height:1.7;}
+
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:2.5rem;}
+
+/* Left: bio card */
+.about-bio-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:2rem;position:relative;overflow:hidden;}
+.about-bio-card::before{content:'';position:absolute;top:-60px;right:-60px;width:160px;height:160px;border-radius:50%;background:rgba(91,78,248,0.12);filter:blur(40px);pointer-events:none;}
+.about-avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#5b4ef8,#06b6d4);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:1.25rem;box-shadow:0 0 20px rgba(91,78,248,0.4);}
+.about-name{font-size:1.2rem;font-weight:800;margin-bottom:0.2rem;}
+.about-loc{font-size:0.82rem;color:#9896ab;margin-bottom:1.2rem;display:flex;align-items:center;gap:5px;}
+.about-bio-text{font-size:0.9rem;color:#b0aec0;line-height:1.85;}
+.about-bio-text strong{color:#fff;}
+.about-status{display:inline-flex;align-items:center;gap:6px;margin-top:1.2rem;background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.25);border-radius:999px;padding:0.35rem 0.9rem;font-size:0.76rem;font-weight:700;color:#06b6d4;}
+.status-dot{width:7px;height:7px;border-radius:50%;background:#06b6d4;animation:dotpulse 1.5s infinite;}
+
+/* Right: goals card */
+.about-goals-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:2rem;position:relative;overflow:hidden;}
+.about-goals-card::before{content:'';position:absolute;bottom:-60px;left:-60px;width:160px;height:160px;border-radius:50%;background:rgba(6,182,212,0.1);filter:blur(40px);pointer-events:none;}
+.goal-title{font-size:0.8rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#a78bfa;margin-bottom:1.2rem;}
+.goal-item{display:flex;align-items:flex-start;gap:12px;margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid rgba(255,255,255,0.06);}
+.goal-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.goal-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;}
+.gi-cloud{background:rgba(91,78,248,0.18);}
+.gi-money{background:rgba(6,182,212,0.18);}
+.gi-cert{background:rgba(167,139,250,0.18);}
+.goal-text{font-size:0.88rem;color:#b0aec0;line-height:1.6;}
+.goal-text strong{color:#fff;display:block;margin-bottom:2px;}
+
+/* Bottom row */
+.about-bottom{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+
+/* Fun facts */
+.facts-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:1.75rem;}
+.facts-title{font-size:0.8rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#a78bfa;margin-bottom:1.2rem;}
+.fact-row{display:flex;align-items:center;gap:10px;padding:0.55rem 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:0.87rem;color:#b0aec0;}
+.fact-row:last-child{border-bottom:none;}
+.fact-icon{font-size:15px;width:28px;text-align:center;flex-shrink:0;}
+.fact-row span{color:#fff;font-weight:600;}
+
+/* Hobbies */
+.hobbies-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:1.75rem;}
+.hobbies-title{font-size:0.8rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#a78bfa;margin-bottom:1.2rem;}
+.hobby-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;}
+.hobby-item{background:rgba(91,78,248,0.1);border:1px solid rgba(91,78,248,0.2);border-radius:10px;padding:0.75rem;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:0.8rem;color:#b0aec0;font-weight:600;text-align:center;transition:all 0.25s;cursor:default;}
+.hobby-item:hover{background:rgba(91,78,248,0.2);border-color:rgba(91,78,248,0.45);transform:translateY(-2px);}
+.hobby-emoji{font-size:22px;}
+
+/* scroll reveal */
+.reveal-ab{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal-ab.vis{opacity:1;transform:translateY(0);}
+
+@media(max-width:768px){
+  .about-grid,.about-bottom{grid-template-columns:1fr;}
+  .hobby-grid{grid-template-columns:repeat(2,1fr);}
+}
+</style>
+
+<div class="about-inner">
+  <div class="reveal-ab">
+    <div class="sec-tag"><span class="sec-tag-dot"></span>About Me</div>
+    <h2 class="sec-title">Who is <span class="grad2">Raj Gupta?</span></h2>
+    <p class="sec-sub">A curious mind from Bhilai, chasing the clouds — literally. Here's my story.</p>
+  </div>
+
+  <div class="about-grid">
+    <!-- Bio Card -->
+    <div class="about-bio-card reveal-ab" style="transition-delay:0.1s;">
+      <div class="about-avatar">RG</div>
+      <div class="about-name">Raj Gupta</div>
+      <div class="about-loc">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Bhilai, Chhattisgarh, India
+      </div>
+      <p class="about-bio-text">
+        I'm a <strong>self-taught tech enthusiast</strong> who discovered his passion for Cloud Computing through a YouTube video — and never looked back. For over a year, I've been on a mission to master the skills that matter most in the tech world.
+        <br/><br/>
+        From setting up <strong>Linux environments</strong> to writing <strong>Python scripts</strong> and understanding <strong>networking fundamentals</strong> — I'm building my foundation brick by brick, with the goal of becoming a <strong>Cloud Architect</strong>.
+      </p>
+      <div class="about-status"><span class="status-dot"></span>Open to Internships & Opportunities</div>
+    </div>
+
+    <!-- Goals Card -->
+    <div class="about-goals-card reveal-ab" style="transition-delay:0.2s;">
+      <div class="goal-title">My Goals & Roadmap</div>
+
+      <div class="goal-item">
+        <div class="goal-icon gi-cloud">☁️</div>
+        <div class="goal-text">
+          <strong>Become a Cloud Architect</strong>
+          Highest-paying role in tech — designing scalable cloud infrastructure on AWS, Azure & GCP.
+        </div>
+      </div>
+      <div class="goal-item">
+        <div class="goal-icon gi-cert">🏆</div>
+        <div class="goal-text">
+          <strong>Earn Industry Certifications</strong>
+          AWS Cloud Practitioner → Solutions Architect → DevOps Professional. Building credibility step by step.
+        </div>
+      </div>
+      <div class="goal-item">
+        <div class="goal-icon gi-money">💰</div>
+        <div class="goal-text">
+          <strong>Land a High-Package Tech Job</strong>
+          Cloud Architects earn ₹40–80 LPA in India and $150K+ globally. That's the target.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="about-bottom">
+    <!-- Fun Facts -->
+    <div class="facts-card reveal-ab" style="transition-delay:0.3s;">
+      <div class="facts-title">Fun Facts About Me</div>
+      <div class="fact-row"><span class="fact-icon">🐧</span><div><span>Linux</span> is my daily driver — terminal is home.</div></div>
+      <div class="fact-row"><span class="fact-icon">🐍</span><div>Writing <span>Python scripts</span> to automate boring tasks.</div></div>
+      <div class="fact-row"><span class="fact-icon">🌐</span><div>Understanding <span>Networking</span> — TCP/IP, DNS, Subnets.</div></div>
+      <div class="fact-row"><span class="fact-icon">☁️</span><div>Currently exploring <span>AWS</span> core services.</div></div>
+      <div class="fact-row"><span class="fact-icon">📺</span><div>Watching <span>tech videos daily</span> — learning never stops.</div></div>
+      <div class="fact-row"><span class="fact-icon">🔥</span><div>A <span>YouTube cloud video</span> changed my life trajectory.</div></div>
+    </div>
+
+    <!-- Hobbies -->
+    <div class="hobbies-card reveal-ab" style="transition-delay:0.4s;">
+      <div class="hobbies-title">Hobbies & Interests</div>
+      <div class="hobby-grid">
+        <div class="hobby-item"><span class="hobby-emoji">🎮</span>Gaming</div>
+        <div class="hobby-item"><span class="hobby-emoji">🎵</span>Music</div>
+        <div class="hobby-item"><span class="hobby-emoji">📺</span>Tech Videos</div>
+        <div class="hobby-item"><span class="hobby-emoji">🧩</span>Problem Solving</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const els=document.querySelectorAll('.reveal-ab');
+  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target);}});},{threshold:0.12});
+  els.forEach(el=>obs.observe(el));
+})();
+</script>
+</section>
 <div class="ph" id="skills"><p>Skills — Coming Soon</p></div>
 <div class="ph" id="projects"><p>Projects — Coming Soon</p></div>
 <div class="ph" id="contact"><p>Contact — Coming Soon</p></div>
