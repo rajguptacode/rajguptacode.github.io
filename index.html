@@ -353,7 +353,226 @@ h1 .grad{background:linear-gradient(270deg,#7c6fff,#a78bfa,#06b6d4,#5b4ef8,#67e8
 })();
 </script>
 </section>
-<div class="ph" id="skills"><p>Skills — Coming Soon</p></div>
+<!-- SKILLS SECTION -->
+<section id="skills" style="position:relative;z-index:1;padding:6rem 6%;border-top:1px solid rgba(255,255,255,0.08);">
+<style>
+.skills-inner{max-width:1180px;margin:0 auto;}
+
+/* Category tabs */
+.skill-tabs{display:flex;gap:0.5rem;margin-bottom:2.5rem;flex-wrap:wrap;}
+.skill-tab{padding:0.5rem 1.3rem;border-radius:999px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);color:#9896ab;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.25s;letter-spacing:0.04em;font-family:'Manrope',sans-serif;}
+.skill-tab.active,.skill-tab:hover{background:rgba(91,78,248,0.2);border-color:rgba(91,78,248,0.5);color:#fff;}
+.skill-tab.active{box-shadow:0 0 16px rgba(91,78,248,0.25);}
+
+/* Category panel */
+.skill-panel{display:none;}.skill-panel.active{display:block;}
+
+/* Progress bar cards */
+.skills-progress-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:2rem;}
+.spcard{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:1.4rem 1.6rem;transition:border-color 0.3s,transform 0.3s;}
+.spcard:hover{border-color:rgba(91,78,248,0.4);transform:translateY(-3px);}
+.spcard-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;}
+.spcard-left{display:flex;align-items:center;gap:12px;}
+.skill-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.skill-name{font-size:0.95rem;font-weight:700;color:#fff;}
+.skill-level{font-size:0.75rem;color:#9896ab;margin-top:1px;}
+.skill-pct{font-family:'Orbitron',monospace;font-size:0.9rem;font-weight:700;color:#a78bfa;}
+.bar-track{height:6px;background:rgba(255,255,255,0.07);border-radius:999px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:999px;width:0%;transition:width 1.2s cubic-bezier(0.4,0,0.2,1);}
+.bar-purple{background:linear-gradient(90deg,#5b4ef8,#a78bfa);}
+.bar-cyan{background:linear-gradient(90deg,#06b6d4,#67e8f9);}
+.bar-green{background:linear-gradient(90deg,#10b981,#6ee7b7);}
+.bar-amber{background:linear-gradient(90deg,#f59e0b,#fcd34d);}
+
+/* Glowing cards grid */
+.glow-cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1rem;}
+.glow-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:1.25rem;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;cursor:default;transition:all 0.3s;position:relative;overflow:hidden;}
+.glow-card::before{content:'';position:absolute;inset:0;border-radius:14px;opacity:0;transition:opacity 0.3s;}
+.glow-card:hover{transform:translateY(-4px);}
+.glow-card:hover::before{opacity:1;}
+.gc-purple::before{background:radial-gradient(circle at 50% 0%,rgba(91,78,248,0.18),transparent 70%);}
+.gc-cyan::before{background:radial-gradient(circle at 50% 0%,rgba(6,182,212,0.18),transparent 70%);}
+.gc-green::before{background:radial-gradient(circle at 50% 0%,rgba(16,185,129,0.18),transparent 70%);}
+.gc-amber::before{background:radial-gradient(circle at 50% 0%,rgba(245,158,11,0.18),transparent 70%);}
+.glow-card:hover{border-color:rgba(91,78,248,0.4);}
+.gc-cyan:hover{border-color:rgba(6,182,212,0.4);}
+.gc-green:hover{border-color:rgba(16,185,129,0.4);}
+.gc-amber:hover{border-color:rgba(245,158,11,0.4);}
+.gc-icon{font-size:26px;position:relative;z-index:1;}
+.gc-name{font-size:0.82rem;font-weight:700;color:#fff;position:relative;z-index:1;}
+.gc-tag{font-size:0.7rem;color:#9896ab;position:relative;z-index:1;}
+.gc-badge{font-size:0.65rem;padding:2px 8px;border-radius:999px;font-weight:700;position:relative;z-index:1;}
+.badge-learning{background:rgba(245,158,11,0.15);color:#fcd34d;border:1px solid rgba(245,158,11,0.3);}
+.badge-current{background:rgba(16,185,129,0.15);color:#6ee7b7;border:1px solid rgba(16,185,129,0.3);}
+.badge-future{background:rgba(91,78,248,0.15);color:#a78bfa;border:1px solid rgba(91,78,248,0.3);}
+
+/* Computer skills special row */
+.comp-skills-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:0.75rem;margin-top:1.5rem;}
+.comp-chip{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:0.7rem 0.9rem;display:flex;align-items:center;gap:8px;font-size:0.82rem;font-weight:600;color:#b0aec0;transition:all 0.25s;}
+.comp-chip:hover{background:rgba(91,78,248,0.12);border-color:rgba(91,78,248,0.35);color:#fff;transform:translateY(-2px);}
+.comp-chip-dot{width:7px;height:7px;border-radius:50%;background:var(--accent2);flex-shrink:0;}
+
+/* reveal */
+.reveal-sk{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal-sk.vis{opacity:1;transform:translateY(0);}
+
+@media(max-width:768px){
+  .skills-progress-grid{grid-template-columns:1fr;}
+  .glow-cards-grid{grid-template-columns:repeat(2,1fr);}
+}
+</style>
+
+<div class="skills-inner">
+  <div class="reveal-sk">
+    <div class="sec-tag"><span class="sec-tag-dot"></span>My Skills</div>
+    <h2 class="sec-title">What I <span class="grad2">Know & Learn</span></h2>
+    <p class="sec-sub">Honest skill levels — where I am today and where I'm heading tomorrow.</p>
+  </div>
+
+  <!-- Tabs -->
+  <div class="skill-tabs reveal-sk" style="transition-delay:0.1s;">
+    <button class="skill-tab active" onclick="switchTab('current')">Current Skills</button>
+    <button class="skill-tab" onclick="switchTab('learning')">Learning Now</button>
+    <button class="skill-tab" onclick="switchTab('computer')">Computer Skills</button>
+    <button class="skill-tab" onclick="switchTab('future')">Future Goals</button>
+  </div>
+
+  <!-- CURRENT SKILLS -->
+  <div class="skill-panel active" id="tab-current">
+    <div class="skills-progress-grid">
+      <div class="spcard reveal-sk" style="transition-delay:0.15s;">
+        <div class="spcard-top">
+          <div class="spcard-left">
+            <div class="skill-icon" style="background:rgba(91,78,248,0.18);">🐍</div>
+            <div><div class="skill-name">Python</div><div class="skill-level">Scripting & Automation</div></div>
+          </div>
+          <div class="skill-pct">65%</div>
+        </div>
+        <div class="bar-track"><div class="bar-fill bar-purple" data-width="65"></div></div>
+      </div>
+      <div class="spcard reveal-sk" style="transition-delay:0.2s;">
+        <div class="spcard-top">
+          <div class="spcard-left">
+            <div class="skill-icon" style="background:rgba(6,182,212,0.18);">🐧</div>
+            <div><div class="skill-name">Linux / Terminal</div><div class="skill-level">Daily Driver</div></div>
+          </div>
+          <div class="skill-pct">70%</div>
+        </div>
+        <div class="bar-track"><div class="bar-fill bar-cyan" data-width="70"></div></div>
+      </div>
+      <div class="spcard reveal-sk" style="transition-delay:0.25s;">
+        <div class="spcard-top">
+          <div class="spcard-left">
+            <div class="skill-icon" style="background:rgba(16,185,129,0.18);">🌐</div>
+            <div><div class="skill-name">Networking</div><div class="skill-level">TCP/IP, DNS, Subnets</div></div>
+          </div>
+          <div class="skill-pct">60%</div>
+        </div>
+        <div class="bar-track"><div class="bar-fill bar-green" data-width="60"></div></div>
+      </div>
+      <div class="spcard reveal-sk" style="transition-delay:0.3s;">
+        <div class="spcard-top">
+          <div class="spcard-left">
+            <div class="skill-icon" style="background:rgba(245,158,11,0.18);">🐙</div>
+            <div><div class="skill-name">Git & GitHub</div><div class="skill-level">Version Control</div></div>
+          </div>
+          <div class="skill-pct">55%</div>
+        </div>
+        <div class="bar-track"><div class="bar-fill bar-amber" data-width="55"></div></div>
+      </div>
+    </div>
+
+    <div class="glow-cards-grid reveal-sk" style="transition-delay:0.35s;">
+      <div class="glow-card gc-purple"><span class="gc-icon">🐍</span><span class="gc-name">Python</span><span class="gc-badge badge-current">Current</span></div>
+      <div class="glow-card gc-cyan"><span class="gc-icon">🐧</span><span class="gc-name">Linux</span><span class="gc-badge badge-current">Daily Use</span></div>
+      <div class="glow-card gc-green"><span class="gc-icon">🌐</span><span class="gc-name">Networking</span><span class="gc-badge badge-current">Current</span></div>
+      <div class="glow-card gc-amber"><span class="gc-icon">🐙</span><span class="gc-name">Git/GitHub</span><span class="gc-badge badge-current">Current</span></div>
+      <div class="glow-card gc-purple"><span class="gc-icon">💻</span><span class="gc-name">HTML/CSS</span><span class="gc-badge badge-current">Basics</span></div>
+    </div>
+  </div>
+
+  <!-- LEARNING NOW -->
+  <div class="skill-panel" id="tab-learning">
+    <div class="glow-cards-grid reveal-sk">
+      <div class="glow-card gc-amber"><span class="gc-icon">☁️</span><span class="gc-name">AWS</span><span class="gc-tag">EC2, S3, IAM</span><span class="gc-badge badge-learning">Learning</span></div>
+      <div class="glow-card gc-cyan"><span class="gc-icon">🐳</span><span class="gc-name">Docker</span><span class="gc-tag">Containers</span><span class="gc-badge badge-learning">Exploring</span></div>
+      <div class="glow-card gc-purple"><span class="gc-icon">⚙️</span><span class="gc-name">DevOps</span><span class="gc-tag">CI/CD Basics</span><span class="gc-badge badge-learning">Learning</span></div>
+      <div class="glow-card gc-green"><span class="gc-icon">🛡️</span><span class="gc-name">Cloud Security</span><span class="gc-tag">IAM Policies</span><span class="gc-badge badge-learning">Exploring</span></div>
+    </div>
+    <div style="margin-top:1.5rem;background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);border-radius:12px;padding:1.2rem 1.5rem;">
+      <p style="font-size:0.88rem;color:#fcd34d;font-weight:700;margin-bottom:4px;">Currently focused on AWS</p>
+      <p style="font-size:0.83rem;color:#9896ab;line-height:1.7;">Building core AWS knowledge — EC2 instances, S3 storage, IAM roles & policies. Target: AWS Cloud Practitioner certification first.</p>
+    </div>
+  </div>
+
+  <!-- COMPUTER SKILLS -->
+  <div class="skill-panel" id="tab-computer">
+    <div style="margin-bottom:1rem;">
+      <p style="font-size:0.88rem;color:#9896ab;line-height:1.7;">Core computer & productivity skills — the foundation every tech professional needs.</p>
+    </div>
+    <div class="comp-skills-row reveal-sk">
+      <div class="comp-chip"><span class="comp-chip-dot"></span>MS Word</div>
+      <div class="comp-chip"><span class="comp-chip-dot" style="background:#06b6d4;"></span>MS Excel</div>
+      <div class="comp-chip"><span class="comp-chip-dot" style="background:#a78bfa;"></span>PowerPoint</div>
+      <div class="comp-chip"><span class="comp-chip-dot"></span>Research</div>
+      <div class="comp-chip"><span class="comp-chip-dot" style="background:#06b6d4;"></span>Vibe Coding</div>
+      <div class="comp-chip"><span class="comp-chip-dot" style="background:#a78bfa;"></span>Design Basics</div>
+      <div class="comp-chip"><span class="comp-chip-dot"></span>Data Entry</div>
+      <div class="comp-chip"><span class="comp-chip-dot" style="background:#06b6d4;"></span>Internet Research</div>
+      <div class="comp-chip"><span class="comp-chip-dot" style="background:#a78bfa;"></span>File Management</div>
+      <div class="comp-chip"><span class="comp-chip-dot"></span>Troubleshooting</div>
+    </div>
+    <div style="margin-top:1.5rem;background:rgba(91,78,248,0.06);border:1px solid rgba(91,78,248,0.2);border-radius:12px;padding:1.2rem 1.5rem;">
+      <p style="font-size:0.88rem;color:#a78bfa;font-weight:700;margin-bottom:4px;">Well-rounded computer literacy</p>
+      <p style="font-size:0.83rem;color:#9896ab;line-height:1.7;">Comfortable with all major computer tasks — from documentation & spreadsheets to creative work and research. A solid base for any tech role.</p>
+    </div>
+  </div>
+
+  <!-- FUTURE GOALS -->
+  <div class="skill-panel" id="tab-future">
+    <div class="glow-cards-grid reveal-sk">
+      <div class="glow-card gc-purple"><span class="gc-icon">🏗️</span><span class="gc-name">Cloud Architecture</span><span class="gc-tag">AWS Solutions Architect</span><span class="gc-badge badge-future">Target</span></div>
+      <div class="glow-card gc-cyan"><span class="gc-icon">♾️</span><span class="gc-name">Kubernetes</span><span class="gc-tag">Container Orchestration</span><span class="gc-badge badge-future">Planned</span></div>
+      <div class="glow-card gc-green"><span class="gc-icon">🔁</span><span class="gc-name">Terraform</span><span class="gc-tag">Infrastructure as Code</span><span class="gc-badge badge-future">Planned</span></div>
+      <div class="glow-card gc-amber"><span class="gc-icon">🛡️</span><span class="gc-name">Cybersecurity</span><span class="gc-tag">Cloud Security</span><span class="gc-badge badge-future">Exploring</span></div>
+      <div class="glow-card gc-purple"><span class="gc-icon">📊</span><span class="gc-name">Monitoring</span><span class="gc-tag">Grafana, CloudWatch</span><span class="gc-badge badge-future">Planned</span></div>
+      <div class="glow-card gc-cyan"><span class="gc-icon">🤖</span><span class="gc-name">AI on Cloud</span><span class="gc-tag">AWS SageMaker</span><span class="gc-badge badge-future">Dream Goal</span></div>
+    </div>
+    <div style="margin-top:1.5rem;background:rgba(91,78,248,0.06);border:1px solid rgba(91,78,248,0.2);border-radius:12px;padding:1.2rem 1.5rem;">
+      <p style="font-size:0.88rem;color:#a78bfa;font-weight:700;margin-bottom:4px;">The ultimate goal: Cloud Architect 🏆</p>
+      <p style="font-size:0.83rem;color:#9896ab;line-height:1.7;">Cloud Architects are the highest-paid engineers in tech. Average ₹40–80 LPA in India, $150K+ globally. Every skill I learn today is a step toward this title.</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function switchTab(tab){
+  document.querySelectorAll('.skill-tab').forEach((t,i)=>{
+    const tabs=['current','learning','computer','future'];
+    t.classList.toggle('active',tabs[i]===tab);
+  });
+  document.querySelectorAll('.skill-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  animateBars();
+}
+function animateBars(){
+  document.querySelectorAll('.bar-fill').forEach(bar=>{
+    bar.style.width='0%';
+    setTimeout(()=>{bar.style.width=bar.dataset.width+'%';},100);
+  });
+}
+(function(){
+  const els=document.querySelectorAll('#skills .reveal-sk');
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){e.target.classList.add('vis');animateBars();}
+    });
+  },{threshold:0.1});
+  els.forEach(el=>obs.observe(el));
+})();
+</script>
+</section>
 <div class="ph" id="projects"><p>Projects — Coming Soon</p></div>
 <div class="ph" id="contact"><p>Contact — Coming Soon</p></div>
 
